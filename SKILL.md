@@ -30,7 +30,7 @@ description: 花叔Design——用HTML做高保真原型、幻灯片、动画、
 | 提到具体品牌/产品名 | 核心原则#0 事实验证 → §1.a 资产协议 → 标准流程 |
 | 没给风格参考（最常见） | Fallback 顾问模式 Phase 1-5 → 回标准流程 Step 2 |
 | 幻灯片/PPT | 标准流程 + Step 1 deck 交付链 + 「技术红线」架构选型 |
-| 动画/导出 MP4/GIF | 标准流程 + Step 9；动手前必读 `references/animation-pitfalls.md` |
+| 动画/导出 MP4/GIF | 标准流程 + Step 9；**新动画项目默认走 HyperFrames 后端**（选型边界+契约 → `references/hyperframes-backend.md`，GSAP 实现配方 → `references/gsap-recipes.md`）；动手前必读 `references/animation-pitfalls.md` |
 | 带解说长视频（≥1分钟） | Step 9.5 → `references/voiceover-pipeline.md` |
 | launch film/品牌宣传片（「Apple级」「超级碗品质」） | 先写万字 director's notes → `references/launch-film-director-notes.md` |
 | App/iOS 原型 | 「App / iOS 原型专属守则」（覆盖通用规则） |
@@ -333,6 +333,7 @@ description: 花叔Design——用HTML做高保真原型、幻灯片、动画、
    🛑 **检查点5：交付前自己肉眼过一遍浏览器**。AI写的代码经常有interaction bug。
 8. **总结**：极简，只说caveats和next steps。
 9. **（默认）导出视频 · 必带 SFX + BGM**：动画 HTML 的**默认交付形态是带音频的 MP4**，不是纯画面。无声版本等于半成品——用户潜意识感知「画在动但没声音响应」，廉价感的根源就在这里。流水线：
+   - **新动画项目默认 HyperFrames 后端**：`npm run check`（五门审计，暗色电影风 `--no-contrast`）→ `npx hyperframes render --fps 60` → `scripts/verify-video.sh` 产物硬校验。选型边界与老 demo 适配器配方见 `references/hyperframes-backend.md`；弱 runtime/单文件交付/纯交互演示仍走下面的自研管线
    - `scripts/render-video.js` 录 25fps 纯画面 MP4（只是中间产物，**不是成品**）
    - 需要**真 60fps / 确定性 / B站作品集交付**且动画走 Stage 时钟时，改用 `scripts/render-video-seek.js --fps=60`（逐帧 seek，免插帧、无黑帧，详见 `references/video-export.md`）
    - `scripts/convert-formats.sh` 派生 60fps MP4 + palette 优化 GIF（视平台需要）
@@ -444,6 +445,8 @@ description: 花叔Design——用HTML做高保真原型、幻灯片、动画、
 | 做幻灯片 | `references/slide-decks.md` + `assets/deck_index.html`（默认多文件概览墙）+ `scripts/gen_deck_thumbs.mjs`（画廊缩略图）+ `assets/deck_stage.js`（仅 ≤5 页单文件） |
 | 导出可编辑 PPTX（html2pptx 4 条硬约束） | `references/editable-pptx.md` + `scripts/html2pptx.js` |
 | 做动画/motion（**先读 pitfalls**）| `references/animation-pitfalls.md` + `references/animations.md` + `assets/animations.jsx` |
+| **HyperFrames 渲染后端**（新动画默认；选型边界/合成契约/老demo迁移/check流程） | `references/hyperframes-backend.md` |
+| **设计语言的 GSAP 实现配方**（easing 映射/运动语言8条/五段叙事骨架/seek 安全规则） | `references/gsap-recipes.md` |
 | **动画的正向设计语法**（Anthropic 级叙事/运动/节奏/表达风格）| `references/animation-best-practices.md`（5 段叙事+Expo easing+运动语言 8 条+3 种场景配方）|
 | **带解说的长动画 / 长概念视频**（5-20 分钟带配音、解说驱动画面、TTS 实测时长生成 timeline）| `references/voiceover-pipeline.md`（铁律：连续运动叙事、禁 PowerPoint 切换）+ `assets/narration_stage.jsx` + `scripts/{tts-doubao,narrate-pipeline}.mjs` + `scripts/{mix-voiceover,render-narration}.sh` |
 | 做Tweaks实时调参 | `references/tweaks-system.md` |
