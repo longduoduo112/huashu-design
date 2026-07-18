@@ -68,9 +68,13 @@ npx -y hyperframes@<pin版本> render --fps 60   # 终渲；默认 30fps
 - **两级渲染**：先默认 30fps 快速出片，肉眼+截帧检查通过后再 `--fps 60` 终渲。60fps 600 帧 1080p 实测约 20 秒
 - 渲染产物侧校验（audio stream / 黑帧 / 响度 / 时长）用 `scripts/verify-video.sh`（见 verification.md）
 
+## 透明通道（overlay花字/贴片直接叠剪辑轨）
+
+`npx hyperframes render --format mov` 输出 ProRes 4444（yuva444p12le，带alpha，2026-07-17实测叠色底连软阴影都正确半透）；`--format webm` 同样带透明、体积小；`--format png-sequence` 出RGBA帧序列给AE/达芬奇。合成侧要点：html/body背景设 `transparent`、不铺底色。花字/角标/lower-third这类overlay素材从此直接进剪辑轨，不用抠像。注意MOV体积大（ProRes无损级，4秒15MB量级），交付剪辑用；网络传输用webm。
+
 ## 音频
 
-HyperFrames 合成里 `<audio>` 元素可直接进时间轴（BGM/解说随片渲染）。当前音频流程不变：SFX/BGM 双轨制照 audio-design-rules.md，用 add-music.sh / mix-voiceover.sh 后期混流也可以。哪条路更好在实战中定，先不强制。
+HyperFrames 合成里 `<audio>` 元素可直接进时间轴（BGM/解说随片渲染）。当前音频流程不变：SFX/BGM 双轨制照 audio-design-rules.md，用 add-music.sh / mix-voiceover.sh 后期混流也可以。哪条路更好在实战中定，先不强制。SFX打点用 `scripts/sfx-cues.sh <视频> <cue表.tsv> <输出>`（cue表=秒数/sfx路径/音量dB三列，B00实战沉淀，改表重跑10秒出片）。
 
 ## pitfalls 增量（相对自研管线）
 
