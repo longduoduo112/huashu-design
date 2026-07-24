@@ -35,7 +35,7 @@ uv run ~/.claude/skills/huashu-design/scripts/ai-review-video.py \
 
 ## checklist与严重度
 
-①黑帧/渲染残缺 ②文字裁切/错字 ③元素重叠遮挡 ④叙事连贯（过渡三分类：硬切/淡入淡出/morph）
+①黑帧/渲染残缺 ②文字裁切/错字 ③元素重叠遮挡 ④叙事连贯（过渡按 camera-language.md §7 三层词汇识别：六式[流白/穿暗场/虚焦接力/黑场字卡/whip-pan/mask-wipe]、hidden-cut、travel[共享元素归位/字腔穿越]；裸切=未包装的硬切，记⚡）
 ⑤hero贯穿性 ⑥节奏死段（客观清单+模型判断刻意hold还是真死段）⑦音效打点（onset+画面事件核对）
 ⑧构图失衡/空白
 
